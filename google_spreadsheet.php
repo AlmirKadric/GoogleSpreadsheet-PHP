@@ -548,7 +548,7 @@ class GoogleSpreadsheet {
         }
     }
     
-    function post($url, $headers = false, $post = false, $request = null, &$status = null, &$error = null)
+    function post($url, $headers = false, $post = false, $request = null, &$status = null, &$error = null, $retryCount = 0)
     {
         $curl = curl_init();
         
@@ -578,10 +578,13 @@ class GoogleSpreadsheet {
         // If server error, keepy trying
         if (in_array($status, array('400'))) {
             echo html_entity_decode($response) . "\n";
-            echo "Retrying in 5 seconds...\n";
+            echo "Retrying in 5 seconds...\n\n";
             
-            sleep(5);
-            return $this->post($url, $headers, $post, $request, $status, $error);
+            sleep(30);
+            if ($retryCount < 60) {
+                $retryCount++;
+                return $this->post($url, $headers, $post, $request, $status, $error, $retryCount);
+            }
         }
         
         // Failed, return an error
