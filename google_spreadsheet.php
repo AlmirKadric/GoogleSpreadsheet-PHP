@@ -578,7 +578,7 @@ class GoogleSpreadsheet {
         // If server error, keepy trying
         if (in_array($status, array('400'))) {
             echo html_entity_decode($response) . "\n";
-            echo "Retrying in 5 seconds...\n\n";
+            echo "Retrying in 30 seconds...\n\n";
             
             sleep(30);
             if ($retryCount < 60) {
