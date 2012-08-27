@@ -578,6 +578,10 @@ class GoogleSpreadsheet {
         // If server error, keepy trying
         if (in_array($status, array('400'))) {
             echo html_entity_decode($response) . "\n";
+            var_dump($url);
+            var_dump($headers);
+            var_dump($post);
+            var_dump($request);
             echo "Retrying in 30 seconds...\n\n";
             
             sleep(30);
